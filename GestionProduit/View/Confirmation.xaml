@@ -1,0 +1,28 @@
+﻿<Window x:Class="GestionProduit.View.Confirmation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionProduit.View"
+        xmlns:ViewModel="clr-namespace:GestionProduit.ViewModel"
+        d:DataContext="{d:DesignInstance Type=ViewModel:VMGestionProduit}"
+        mc:Ignorable="d"
+        Title="Confirmation" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <GroupBox Margin="10px" BorderBrush="Black">
+                <GroupBox.Header>
+                    <TextBlock FontWeight="Bold" FontSize="16">Message</TextBlock>
+                </GroupBox.Header>
+                <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold" x:Name="Message"></TextBlock>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12" Click="Ok_Close">Confirmer</Button>
+        </Grid>
+    </Grid>
+</Window>
