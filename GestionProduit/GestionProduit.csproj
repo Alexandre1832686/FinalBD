@@ -100,9 +100,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataAccesLayer\DAL.cs" />
+    <Compile Include="DataAccesLayer\factories\CommandFactory.cs" />
+    <Compile Include="DataAccesLayer\factories\ProductFactory.cs" />
     <Compile Include="DataAccesLayer\factories\UserFactory.cs" />
     <Compile Include="Model\Commande.cs" />
     <Compile Include="Model\Produit.cs" />
+    <Compile Include="Model\ProduitCommande.cs" />
+    <Compile Include="Model\TypeProduit.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="ViewModel\CommandeRelais.cs" />
     <Compile Include="ViewModel\VMGestionProduit.cs" />

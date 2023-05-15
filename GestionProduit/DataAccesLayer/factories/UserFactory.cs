@@ -40,7 +40,7 @@ CHANGE COLUMN `idUser` `idUser` INT NOT NULL AUTO_INCREMENT ;
                 mySqlCnn.Open();
 
                 MySqlCommand mySqlCmd = mySqlCnn.CreateCommand();
-                mySqlCmd.CommandText = "SELECT * FROM tblusers";
+                mySqlCmd.CommandText = "SELECT * FROM tblusers ORDER BY idUser";
 
                 mySqlDataReader = mySqlCmd.ExecuteReader();
                 while (mySqlDataReader.Read())
@@ -70,9 +70,12 @@ CHANGE COLUMN `idUser` `idUser` INT NOT NULL AUTO_INCREMENT ;
                                             
                 mySqlCmd.CommandText = "Insert into tblusers values (@id,@nom,@prenom)";
 
+                List<User> liste = GetAllUser();
+                
+
                 mySqlCmd.Parameters.AddWithValue("@nom", nom);
                 mySqlCmd.Parameters.AddWithValue("@prenom", prenom);
-                mySqlCmd.Parameters.AddWithValue("@id",(int)mySqlCmd.LastInsertedId);
+                mySqlCmd.Parameters.AddWithValue("@id",liste.Last().Id + 1);
 
                 if(mySqlCmd.ExecuteNonQuery()>0)
                 {

@@ -6,10 +6,23 @@ using System.Threading.Tasks;
 
 namespace GestionProduit.Model
 {
-    internal class Commande
+    public class Commande
     {
-        public List<Tuple<Produit, int>> ListProduit { get; set; }
+       
         public int IdCommande { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
+
+        public DateTime DateLivraison { get; set; }
+        public DateTime DateCommande { get; set; }
+
+        public Commande(int idCommande, int userID, DateTime dateLivraison, DateTime dateCommande)
+        {
+            
+            IdCommande = idCommande;
+            UserID = userID;
+            DateLivraison = dateLivraison;
+            DateCommande = dateCommande;
+        }
+        
     }
 }

@@ -88,19 +88,23 @@
                                     <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Article disponible</TextBlock>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px">
+                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding ListeProduits}" SelectedItem="{Binding ProduitSelected}">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Header="NoArticle" Width="auto"></GridViewColumn>
-                                                <GridViewColumn Header="NomArticle" Width="auto"></GridViewColumn>
+                                                <GridViewColumn Header="NoArticle" Width="auto" DisplayMemberBinding="{Binding NoProduit}"></GridViewColumn>
+                                                <GridViewColumn Header="NomArticle" Width="auto" DisplayMemberBinding="{Binding NomProduit}"></GridViewColumn>
                                             </GridView>
                                         </ListView.View>
                                     </ListView>
                                 </Grid>
                             </Grid>
                             <Grid Grid.Column="1">
+                                <StackPanel>
+                                    <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Quantité</TextBlock>
+                                    <TextBox Margin="5px" FontSize="20" BorderBrush="Black" Text="{Binding Quantite}"/>
+                                </StackPanel>
                                 <StackPanel VerticalAlignment="Center">
-                                    <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12">Ajouter à la commande</Button>
+                                    <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12" Command="{Binding AjouterProduit}">Ajouter à la commande</Button>
                                     <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12">Retirer de la commande </Button>
                                 </StackPanel>
                             </Grid>
@@ -113,11 +117,12 @@
                                     <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Article Commandé</TextBlock>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px">
+                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding CommandeMenu}">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Header="NoArticle" Width="auto"></GridViewColumn>
-                                                <GridViewColumn Header="NomArticle" Width="auto"></GridViewColumn>
+                                                <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Item1.NoProduit}"></GridViewColumn>
+                                                <GridViewColumn Header="Nom" Width="auto" DisplayMemberBinding="{Binding Item1.NomProduit}"></GridViewColumn>
+                                                <GridViewColumn Header="Quantité" Width="auto" DisplayMemberBinding="{Binding Item2}"></GridViewColumn>
                                             </GridView>
                                         </ListView.View>
                                     </ListView>

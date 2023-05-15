@@ -10,6 +10,8 @@ namespace GestionProduit.DataAccesLayer
     public class DAL
     {
         private UserFactory userFactory = null;
+        private ProductFactory productFactory = null;
+        private CommandFactory commandFactory = null;
 
         public static string ConnectionString = "Server=sql.decinfo-cchic.ca;Port=33306;Database=h23_intro_services_tp5_1832686;Uid=dev-1832686;Pwd=Info2020";
         //{ get; set; }
@@ -24,6 +26,30 @@ namespace GestionProduit.DataAccesLayer
                 }
 
                 return userFactory;
+            }
+        }
+        public ProductFactory ProductFactory
+        {
+            get
+            {
+                if (productFactory == null)
+                {
+                    productFactory = new ProductFactory();
+                }
+
+                return productFactory;
+            }
+        }
+        public CommandFactory CommandFactory
+        {
+            get
+            {
+                if (commandFactory == null)
+                {
+                    commandFactory = new CommandFactory();
+                }
+
+                return commandFactory;
             }
         }
     }
