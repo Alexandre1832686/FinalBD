@@ -32,12 +32,12 @@
                             <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Commandes</TextBlock>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px">
+                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding ListeCommande}" SelectedItem="{Binding CommandeChoisi}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="NoCommande" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="PrenomClient" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="NomClient" Width="auto"></GridViewColumn>
+                                        <GridViewColumn Header="NoCommande" Width="auto" DisplayMemberBinding="{Binding IdCommande}"></GridViewColumn>
+                                        <GridViewColumn Header="PrenomClient" Width="auto" DisplayMemberBinding="{Binding UserName}"></GridViewColumn>
+                                        <GridViewColumn Header="NomClient" Width="auto" DisplayMemberBinding="{Binding UserLastName}"></GridViewColumn>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -52,12 +52,12 @@
                             <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Article de la commande</TextBlock>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px">
+                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding ProduitCommandeChoisi}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="NoArticle" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="NomArticle" Width="auto"></GridViewColumn>
-                                        <GridViewColumn Header="Quantité" Width="auto"></GridViewColumn>
+                                        <GridViewColumn Header="NoArticle" Width="auto" DisplayMemberBinding="{Binding idProduit}"></GridViewColumn>
+                                        <GridViewColumn Header="NomArticle" Width="auto" DisplayMemberBinding="{Binding nomProduit}"></GridViewColumn>
+                                        <GridViewColumn Header="Quantité" Width="auto" DisplayMemberBinding="{Binding quantiteProduit}"></GridViewColumn>
                                     </GridView>
                                 </ListView.View>
                             </ListView>

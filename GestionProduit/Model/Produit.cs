@@ -18,5 +18,6 @@ namespace GestionProduit.Model
             NoTypeProduit = noTypeProduit;
             NomProduit = nomProduit;
         }
+        public Produit(){}
     }
 }

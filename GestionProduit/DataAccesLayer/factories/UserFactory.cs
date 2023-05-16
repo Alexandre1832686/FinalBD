@@ -89,5 +89,35 @@ CHANGE COLUMN `idUser` `idUser` INT NOT NULL AUTO_INCREMENT ;
             }
             return false;
         }
+
+        public User GetUserById(int id)
+        {
+            User user = new User();
+            MySqlConnection mySqlCnn = null;
+            MySqlDataReader mySqlDataReader = null;
+
+            try
+            {
+                mySqlCnn = new MySqlConnection(DAL.ConnectionString);
+                mySqlCnn.Open();
+
+                MySqlCommand mySqlCmd = mySqlCnn.CreateCommand();
+                mySqlCmd.CommandText = "SELECT * FROM tblusers WHERE idUser = @id";
+                mySqlCmd.Parameters.AddWithValue("@id", id);
+
+                mySqlDataReader = mySqlCmd.ExecuteReader();
+                while (mySqlDataReader.Read())
+                {
+                    user = CreateFromReader(mySqlDataReader);
+                }
+            }
+            finally
+            {
+                mySqlDataReader?.Close();
+                mySqlCnn?.Close();
+            }
+
+            return user;
+        }
     }
 }

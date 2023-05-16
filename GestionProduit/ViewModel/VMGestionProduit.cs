@@ -26,7 +26,9 @@ namespace GestionProduit.ViewModel
         Produit _produitSelected;
         ObservableCollection<Commande> _listeCommande;
         User _userSelected;
-
+        Commande _commandeChoisi;
+        ObservableCollection<ProduitCommande> _produitCommandeChoisi;
+        Tuple<Produit,int> _produitSelectedCommande;
         #endregion
 
         #region INotifyPropertyChange
@@ -145,6 +147,32 @@ namespace GestionProduit.ViewModel
                 ValeurChangee("UserSelected");
             }
         }
+        public Tuple<Produit, int> ProduitSelectedCommande
+        {
+            get
+            {
+                return _produitSelectedCommande;
+            }
+            set
+            {
+                _produitSelectedCommande = value;
+                ValeurChangee("ProduitSelectedCommande");
+            }
+        }
+        public Commande CommandeChoisi
+        {
+            get
+            {
+                return _commandeChoisi;
+            }
+            set
+            {
+                ProduitCommandeChoisi = new ObservableCollection<ProduitCommande>( dal.ProduitCommandeFactory.GetByID(value.IdCommande) );
+                _commandeChoisi = value;
+                ValeurChangee("CommandeChoisi");
+            }
+        }
+
 
         public ObservableCollection<Commande> ListeCommande
         {
@@ -158,11 +186,34 @@ namespace GestionProduit.ViewModel
                 ValeurChangee("ListeCommande");
             }
         }
+        public ObservableCollection<ProduitCommande> ProduitCommandeChoisi
+        {
+            get
+            {
+                return _produitCommandeChoisi;
+            }
+            set
+            {
+                _produitCommandeChoisi = value;
+                ValeurChangee("ProduitCommandeChoisi");
+            }
+        }
 
         #endregion
 
         #region Binding des commandes
-
+        private ICommand _envoyerCommande;
+        public ICommand EnvoyerCommande
+        {
+            get { return _envoyerCommande; }
+            set { _envoyerCommande = value; }
+        }
+        private ICommand _retirer;
+        public ICommand Retirer
+        {
+            get { return _retirer; }
+            set { _retirer = value; }
+        }
         private ICommand _ajouterProduit;
         public ICommand AjouterProduit
         {
@@ -204,38 +255,99 @@ namespace GestionProduit.ViewModel
             }
             return false;
         }
+        private void retirer_Execute(object parameter)
+        {
+            Tuple<Produit, int> produitcontext = null;
+            foreach(Tuple<Produit,int> produit in CommandeMenu)
+            {
+                if(produit.Item1.NoProduit == ProduitSelectedCommande.Item1.NoProduit)
+                {
+                    produitcontext = produit;
+                }
+            }
+            if(produitcontext != null)
+            {
+                CommandeMenu.Remove(produitcontext);
+            }
+        }
+
+        private bool retirer_CanExecute(object parameter)
+        {
+            if (ProduitSelectedCommande != null)
+            {
+                return true;
+            }
+            return false;
+        }
         private void AjouterProduit_Execute(object parameter)
         {
-            List<Tuple<Produit, int>> liste = CommandeMenu.ToList();
-            liste.Add(Tuple.Create(ProduitSelected, Quantite));
-            CommandeMenu = new ObservableCollection<Tuple<Produit, int>>(liste);
+            Tuple<Produit, int> existingproduct = null;
+            bool present = false;
+            foreach(Tuple<Produit,int> context in CommandeMenu)
+            {
+                if (ProduitSelected.NoProduit == context.Item1.NoProduit)
+                {
+                    present = true;
+                    existingproduct = context;
+                }
+            }
+            
+            if(!present)
+            {
+                List<Tuple<Produit, int>> liste = CommandeMenu.ToList();
+                liste.Add(Tuple.Create(ProduitSelected, Quantite));
+                CommandeMenu = new ObservableCollection<Tuple<Produit, int>>(liste);
+            }
+            else
+            {
+                int prequantite = existingproduct.Item2;
+
+                CommandeMenu.Remove(existingproduct);
+
+                List<Tuple<Produit, int>> liste = CommandeMenu.ToList();
+                liste.Add(Tuple.Create(ProduitSelected, Quantite + prequantite));
+                CommandeMenu = new ObservableCollection<Tuple<Produit, int>>(liste);
+            }
             
         }
 
         private bool AjouterProduit_CanExecute(object parameter)
         {
-            if (Quantite != 0 && ProduitSelected != null)
+            if (Quantite != 0 && ProduitSelected != null && Quantite < 100 && Quantite>0)
             {
                 return true;
             }
             return false;
         }
 
-        //private bool EnvoyerCommande_CanExecute(object parameter)
-        //{
-        //    if (CommandeMenu.ListProduit.Count > 0 && UserSelected != null)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        private bool EnvoyerCommande_CanExecute(object parameter)
+        {
+            if (CommandeMenu.Count > 0 && UserSelected != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
-        //private void EnvoyerCommande_Execute(object parameter)
-        //{
-        //    CommandeMenu.UserID = UserSelected.Id;
-        //    dal.CommandFactory
-        //    ListeCommande.Add(CommandeMenu);
-        //}
+        private void EnvoyerCommande_Execute(object parameter)
+        {
+            Commande c = new Commande(dal.CommandFactory.getlastidCommand(), UserSelected.Id,UserSelected.Prenom, UserSelected.Nom, DateTime.Now.AddDays(3), DateTime.Now);
+            ListeCommande.Add(c);
+            if(dal.CommandFactory.SaveNewCommand(c,CommandeMenu.ToList()))
+            {
+                Confirmation confi = new Confirmation("Commande ajouté!");
+                confi.Show();
+                CommandeMenu.Clear();
+                UserSelected = null;
+                ProduitSelected = null;
+                Quantite = 0;
+            }
+            else
+            {
+                Confirmation confi = new Confirmation("Il y a eu un problème lors de votre commande");
+                confi.Show();
+            }
+        }
 
 
 
@@ -258,10 +370,15 @@ namespace GestionProduit.ViewModel
         public VMGestionProduit()
         {
             AjouterProduit = new CommandeRelais(AjouterProduit_Execute, AjouterProduit_CanExecute);
+            Retirer = new CommandeRelais(retirer_Execute, retirer_CanExecute);
+            EnvoyerCommande = new CommandeRelais(EnvoyerCommande_Execute, EnvoyerCommande_CanExecute);
             AjouterUser = new CommandeRelais(AjouterUser_Execute, AjouterUser_CanExecute);
             ListUsers = new ObservableCollection<User>( dal.UserFactory.GetAllUser());
             ListeProduits = new ObservableCollection<Produit>(dal.ProductFactory.GetAllProduit());
+            ListeCommande = new ObservableCollection<Commande>(dal.CommandFactory.GetAllCommande());
             CommandeMenu = new ObservableCollection<Tuple<Produit, int>>();
         }
+
+        
     }
 }

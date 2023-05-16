@@ -18,5 +18,6 @@ namespace GestionProduit.Model
             Prenom = prenom;
             Nom = nom;
         }
+        public User() { }
     }
 }

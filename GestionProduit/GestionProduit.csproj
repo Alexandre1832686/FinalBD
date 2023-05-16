@@ -102,6 +102,7 @@
     <Compile Include="DataAccesLayer\DAL.cs" />
     <Compile Include="DataAccesLayer\factories\CommandFactory.cs" />
     <Compile Include="DataAccesLayer\factories\ProductFactory.cs" />
+    <Compile Include="DataAccesLayer\factories\ProduitCommandeFactory.cs" />
     <Compile Include="DataAccesLayer\factories\UserFactory.cs" />
     <Compile Include="Model\Commande.cs" />
     <Compile Include="Model\Produit.cs" />

@@ -49,5 +49,35 @@ namespace GestionProduit.DataAccesLayer.factories
 
             return produits;
         }
+
+        public Produit GetProduitbyid(int id )
+        {
+            Produit produit = new Produit();
+            MySqlConnection mySqlCnn = null;
+            MySqlDataReader mySqlDataReader = null;
+
+            try
+            {
+                mySqlCnn = new MySqlConnection(DAL.ConnectionString);
+                mySqlCnn.Open();
+
+                MySqlCommand mySqlCmd = mySqlCnn.CreateCommand();
+                mySqlCmd.CommandText = "SELECT * FROM tblproduit WHERE idProduit = @id";
+                mySqlCmd.Parameters.AddWithValue("@id", id);
+
+                mySqlDataReader = mySqlCmd.ExecuteReader();
+                while (mySqlDataReader.Read())
+                {
+                    produit = CreateFromReader(mySqlDataReader);
+                }
+            }
+            finally
+            {
+                mySqlDataReader?.Close();
+                mySqlCnn?.Close();
+            }
+
+            return produit;
+        }
     }
 }

@@ -51,7 +51,7 @@
                             </Grid>
                         </Grid>
                         <Grid Grid.Column="1">
-                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding ListUsers}">
+                            <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding ListUsers}" SelectedItem="{Binding UserSelected}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Prénom" Width="auto" DisplayMemberBinding="{Binding Prenom}"></GridViewColumn>
@@ -105,7 +105,7 @@
                                 </StackPanel>
                                 <StackPanel VerticalAlignment="Center">
                                     <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12" Command="{Binding AjouterProduit}">Ajouter à la commande</Button>
-                                    <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12">Retirer de la commande </Button>
+                                    <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="12" Command="{Binding Retirer}">Retirer de la commande </Button>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Column="2">
@@ -117,7 +117,7 @@
                                     <TextBlock TextAlignment="Center" FontSize="16" FontWeight="Bold">Article Commandé</TextBlock>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding CommandeMenu}">
+                                    <ListView BorderBrush="Black" Background="WhiteSmoke" Margin="10px" ItemsSource="{Binding CommandeMenu}" SelectedItem="{Binding ProduitSelectedCommande}">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Id" Width="auto" DisplayMemberBinding="{Binding Item1.NoProduit}"></GridViewColumn>
@@ -130,7 +130,7 @@
                             </Grid>
                         </Grid>
                         <Grid Grid.Row="1">
-                            <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="16">Création de commande</Button>
+                            <Button Margin="5px" BorderBrush="Black" FontWeight="Bold" FontSize="16" Command="{Binding EnvoyerCommande}">Création de commande</Button>
                         </Grid>
                     </Grid>
                 </GroupBox>

@@ -11,15 +11,17 @@ namespace GestionProduit.Model
        
         public int IdCommande { get; set; }
         public int UserID { get; set; }
-
+        public string UserName { get; set; }
+        public string UserLastName { get; set; }
         public DateTime DateLivraison { get; set; }
         public DateTime DateCommande { get; set; }
 
-        public Commande(int idCommande, int userID, DateTime dateLivraison, DateTime dateCommande)
+        public Commande(int idCommande, int userID, string Username,string userLastName, DateTime dateLivraison, DateTime dateCommande)
         {
-            
+            UserLastName = userLastName;
             IdCommande = idCommande;
             UserID = userID;
+            UserName = Username;
             DateLivraison = dateLivraison;
             DateCommande = dateCommande;
         }
